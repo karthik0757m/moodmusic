@@ -31,8 +31,5 @@ RUN chmod +x start.sh
 # Expose port 8080
 EXPOSE 8080
 
-# Set PORT environment variable
-ENV PORT=8080
-
-# Run startup script
-CMD ["bash", "start.sh"]
+# Run gunicorn directly without script
+CMD ["gunicorn", "app:app", "--bind", "0.0.0.0:8080", "--workers", "2", "--timeout", "120", "--log-level", "info"]
