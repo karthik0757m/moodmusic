@@ -1,5 +1,19 @@
 [phases.setup]
-nixPkgs = ["python310", "libGL", "glib", "libxcrypt-legacy", "gcc", "stdenv.cc.cc.lib"]
+nixPkgs = [
+  "python310",
+  "libGL",
+  "glib",
+  "libxcrypt-legacy",
+  "gcc",
+  "stdenv.cc.cc.lib",
+  "xorg.libX11",
+  "xorg.libXext",
+  "xorg.libXrender",
+  "xorg.libxcb",
+  "xorg.libSM",
+  "xorg.libICE",
+  "mesa"
+]
 
 [phases.install]
 cmds = ["pip install -r requirements.txt"]
