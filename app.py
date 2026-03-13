@@ -14,10 +14,11 @@ from dotenv import load_dotenv
 load_dotenv()
 
 app = Flask(__name__)
-app.secret_key = os.getenv('FLASK_SECRET_KEY', os.urandom(24).hex())
 
 # Production configuration
-IS_PRODUCTION = os.getenv('RAILWAY_ENVIRONMENT') or os.getenv('RENDER')
+IS_PRODUCTION = bool(os.getenv('RAILWAY_ENVIRONMENT_NAME') or os.getenv('RAILWAY_ENVIRONMENT'))
+
+app.secret_key = os.getenv('FLASK_SECRET_KEY', os.urandom(24).hex())
 app.config['SESSION_COOKIE_SECURE'] = IS_PRODUCTION  # HTTPS only in production
 app.config['SESSION_COOKIE_HTTPONLY'] = True
 app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
