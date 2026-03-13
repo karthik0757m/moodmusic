@@ -28,8 +28,5 @@ COPY . .
 # Expose port
 EXPOSE 8080
 
-# Set environment variable for port
-ENV PORT=8080
-
 # Run gunicorn
-CMD gunicorn app:app --bind 0.0.0.0:$PORT --workers 2 --timeout 120 --log-level info
+CMD gunicorn app:app --bind 0.0.0.0:${PORT:-8080} --workers 2 --timeout 120 --log-level info
