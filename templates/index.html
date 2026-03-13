@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mood Music Player</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div id="app" class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1 class="logo">🎵 Mood Music</h1>
+                <div class="user-section">
+                    <!-- Theme Toggle -->
+                    <label class="theme-switch">
+                        <input type="checkbox" id="theme-toggle" onchange="toggleTheme()">
+                        <span class="theme-slider">
+                            <span class="theme-icon moon">🌙</span>
+                            <span class="theme-icon sun">☀️</span>
+                        </span>
+                    </label>
+                    <span id="user-name" class="user-name"></span>
+                    <button onclick="logout()" class="btn-logout">Logout</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Mood Mode Tabs -->
+            <div class="mode-tabs">
+                <button class="tab-btn active" data-mode="camera" onclick="switchMode('camera')">
+                    📷 Camera
+                </button>
+                <button class="tab-btn" data-mode="text" onclick="switchMode('text')">
+                    💭 Text
+                </button>
+                <button class="tab-btn" data-mode="manual" onclick="switchMode('manual')">
+                    🎚 Mood
+                </button>
+                <button class="tab-btn" data-mode="search" onclick="switchMode('search')">
+                    🔍 Search
+                </button>
+            </div>
+
+            <!-- Mode Content -->
+            <div class="mode-content">
+                <!-- Camera Mode -->
+                <div id="camera-mode" class="mode-panel active">
+                    <div class="camera-container">
+                        <video id="video" autoplay playsinline></video>
+                        <canvas id="canvas" style="display: none;"></canvas>
+                    </div>
+                    <button onclick="detectCamera()" class="btn-primary">
+                        Detect My Mood
+                    </button>
+                    <div id="camera-result" class="result-display"></div>
+                </div>
+
+                <!-- Text Mode -->
+                <div id="text-mode" class="mode-panel">
+                    <div class="text-input-container">
+                        <textarea 
+                            id="text-input" 
+                            placeholder="How are you feeling? Tell me about your mood..."
+                            rows="5"
+                        ></textarea>
+                        <button onclick="detectText()" class="btn-primary">
+                            Analyze My Mood
+                        </button>
+                    </div>
+                    <div id="text-result" class="result-display"></div>
+                </div>
+
+                <!-- Manual Mode -->
+                <div id="manual-mode" class="mode-panel">
+                    <div class="manual-selector">
+                        <h3>How are you feeling?</h3>
+                        <div class="mood-grid">
+                            <button class="mood-btn" onclick="selectMood('happy')">
+                                😊 Happy
+                            </button>
+                            <button class="mood-btn" onclick="selectMood('sad')">
+                                😢 Sad
+                            </button>
+                            <button class="mood-btn" onclick="selectMood('calm')">
+                                😌 Calm
+                            </button>
+                            <button class="mood-btn" onclick="selectMood('angry')">
+                                😠 Angry
+                            </button>
+                            <button class="mood-btn" onclick="selectMood('energetic')">
+                                ⚡ Energetic
+                            </button>
+                            <button class="mood-btn" onclick="selectMood('nostalgic')">
+                                🌅 Nostalgic
+                            </button>
+                        </div>
+                    </div>
+                    <div id="manual-result" class="result-display"></div>
+                </div>
+
+                <!-- Search Mode -->
+                <div id="search-mode" class="mode-panel">
+                    <div class="search-container">
+                        <input 
+                            type="text" 
+                            id="search-input" 
+                            placeholder="Search for a song or artist..."
+                            onkeypress="handleSearchEnter(event)"
+                        >
+                        <button onclick="searchSong()" class="btn-primary" style="max-width: 150px;">
+                            Search
+                        </button>
+                    </div>
+                    <div id="search-result" class="result-display"></div>
+                </div>
+            </div>
+
+            <!-- Now Playing Card -->
+            <div id="now-playing" class="now-playing" style="display: none;">
+                <h3>♫ Now Playing</h3>
+                <div class="track-info">
+                    <img id="track-image" src="" alt="Album Art" class="album-art">
+                    <div class="track-details">
+                        <div id="track-name" class="track-name"></div>
+                        <div id="track-artist" class="track-artist"></div>
+                        <div id="track-album" class="track-album"></div>
+                    </div>
+                </div>
+                <div class="progress-container">
+                    <div id="progress-bar" class="progress-bar"></div>
+                </div>
+                <div class="playback-info">
+                    <span id="current-time">0:00</span>
+                    <span id="total-time">0:00</span>
+                </div>
+                <!-- Playback Controls -->
+                <div class="playback-controls">
+                    <button class="control-btn" onclick="previousTrack()" title="Previous">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M6 6h2v12H6V6zm3.5 6l8.5 6V6l-8.5 6z"/>
+                        </svg>
+                    </button>
+                    <button class="control-btn play-pause-btn" id="play-pause-btn" onclick="togglePlayPause()" title="Play/Pause">
+                        <svg id="play-icon" width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M8 5v14l11-7z"/>
+                        </svg>
+                        <svg id="pause-icon" width="32" height="32" viewBox="0 0 24 24" fill="currentColor" style="display: none;">
+                            <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+                        </svg>
+                    </button>
+                    <button class="control-btn" onclick="nextTrack()" title="Next">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Loading Overlay -->
+            <div id="loading" class="loading-overlay" style="display: none;">
+                <div class="spinner"></div>
+                <p id="loading-text">Processing...</p>
+            </div>
+
+            <!-- Error Display -->
+            <div id="error-message" class="error-message" style="display: none;"></div>
+        </main>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>

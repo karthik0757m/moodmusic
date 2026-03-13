@@ -1,0 +1,104 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.login-container {
+    width: 100%;
+    max-width: 500px;
+}
+
+.login-card {
+    background: white;
+    border-radius: 20px;
+    padding: 50px 40px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+
+.login-title {
+    font-size: 3em;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.login-subtitle {
+    font-size: 1.2em;
+    color: #666;
+    margin-bottom: 40px;
+}
+
+.features {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.feature {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 12px;
+    color: #555;
+    font-size: 0.9em;
+}
+
+.feature-icon {
+    font-size: 2em;
+}
+
+.btn-spotify {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 15px 40px;
+    background: #1DB954;
+    color: white;
+    text-decoration: none;
+    border-radius: 30px;
+    font-size: 1.1em;
+    font-weight: 600;
+    transition: all 0.3s;
+    box-shadow: 0 4px 15px rgba(29, 185, 84, 0.3);
+}
+
+.btn-spotify:hover {
+    background: #1aa34a;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(29, 185, 84, 0.4);
+}
+
+.login-note {
+    margin-top: 25px;
+    color: #999;
+    font-size: 0.9em;
+}
+
+@media (max-width: 600px) {
+    .login-card {
+        padding: 40px 30px;
+    }
+
+    .login-title {
+        font-size: 2.5em;
+    }
+
+    .features {
+        grid-template-columns: 1fr;
+    }
+}
