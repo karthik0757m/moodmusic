@@ -28,8 +28,11 @@ COPY . .
 # Make start script executable
 RUN chmod +x start.sh
 
-# Expose port
+# Expose port 8080
 EXPOSE 8080
 
+# Set PORT environment variable
+ENV PORT=8080
+
 # Run startup script
-CMD ["./start.sh"]
+CMD ["bash", "start.sh"]
