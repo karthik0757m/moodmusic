@@ -28,5 +28,5 @@ COPY . .
 # Expose port
 EXPOSE 8080
 
-# Run gunicorn
-CMD gunicorn app:app --bind 0.0.0.0:${PORT:-8080} --workers 2 --timeout 120 --log-level info
+# Run gunicorn with shell to properly expand PORT variable
+CMD ["sh", "-c", "gunicorn app:app --bind 0.0.0.0:${PORT:-8080} --workers 2 --timeout 120 --log-level info"]
