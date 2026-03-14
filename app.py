@@ -92,7 +92,8 @@ def get_spotify_oauth():
         client_secret=SPOTIFY_CLIENT_SECRET,
         redirect_uri=SPOTIFY_REDIRECT_URI,
         scope=SPOTIFY_SCOPE,
-        show_dialog=True
+        show_dialog=True,
+        cache_handler=spotipy.cache_handler.MemoryCacheHandler()
     )
 
 def get_spotify_client():
