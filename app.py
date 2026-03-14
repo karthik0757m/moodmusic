@@ -18,11 +18,12 @@ app = Flask(__name__)
 # Production configuration
 IS_PRODUCTION = bool(os.getenv('RAILWAY_ENVIRONMENT_NAME') or os.getenv('RAILWAY_ENVIRONMENT'))
 
-app.secret_key = os.getenv('FLASK_SECRET_KEY', os.urandom(24).hex())
-app.config['SESSION_COOKIE_SECURE'] = IS_PRODUCTION  # HTTPS only in production
+app.secret_key = os.getenv('FLASK_SECRET_KEY')
+app.config['SESSION_COOKIE_SECURE'] = IS_PRODUCTION
 app.config['SESSION_COOKIE_HTTPONLY'] = True
 app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
-app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=7)
+app.config['SESSION_COOKIE_NAME'] = 'mood_music_session'
+app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=1)
 
 # Spotify Configuration
 SPOTIFY_CLIENT_ID = os.getenv('SPOTIFY_CLIENT_ID')
